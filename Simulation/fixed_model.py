@@ -29,12 +29,6 @@ WheelRadiusX    = params['WheelRadiusX']
 WheelRadiusY    = params['WheelRadiusY']
 AxleLoad        = params['AxleLoad']
 
-# Parameterize These same as above
-# RailRadius = 300
-# WheelRadiusX = 300
-# WheelRadiusY = 250
-# AxleLoad = -100000.0
-
 ### Wheel Sketch
 mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=500.0)
 mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(0.0, 0.0), 

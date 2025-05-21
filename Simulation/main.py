@@ -8,8 +8,8 @@ import subprocess
 
 results_dir = 'MainOutput' # Path for results folder (ODB)
 os.makedirs(results_dir, exist_ok=True) # Creates results folder
-wrscript_name = 'FixedModel.py' # Name of script to run
-params_file = "import_params.json"
+sim_script = 'fixed_model.py' # Name of script to run
+params_file = "input_params.json"
 
 mesh_value = 1.5
 
@@ -21,17 +21,23 @@ inpdata = pd.read_csv('inputdata.txt', sep = ',')
 n = 1 # Counter for #jobs
 ind1 = int(input('Start index: '))
 ind2 = int(input('End index: '))
-# Writing to txt file which indices I have gone through
 with open('done_ind.txt', 'a') as f:
     f.write(f'{ind1}-{ind2 - 1}\n')
-assert(ind2 <= 819)
+done = pd.read_csv('done_ind.txt', sep = '-')
+assert(ind1 == max(float(done['Index 2'])) + 1)
+assert(ind2 <= inpdata.index[-1])
 
-for i in inpdata.index[10:15]:
+with open('done_ind.txt', 'w') as f:
+    f.write(
+        'Index 1-Index 2\n' +
+        '0-0\n'
+    )
+
+for i in inpdata.index[ind1:ind2]:
     r_rail, r_wheelx, r_wheely, load = inpdata.iloc[i, :]
     start = time.time()
-    params = {                                                            # Write parameter file
+    params = { # Write parameter file
         "JobName": f"MainJob",
-        # "MeshVal":        1.5,
         'MeshVal': mesh_value,
         "RailRadius": r_rail,
         "WheelRadiusX": r_wheelx,
@@ -39,12 +45,13 @@ for i in inpdata.index[10:15]:
         "AxleLoad": load
     }
 
-    with open(params_file, "w") as f:                                     # Write the params to a .json file for import to script
+    with open(params_file, "w") as f: # Write the params to a .json file for import to script
         json.dump(params, f)
 
-    subprocess.run('abaqus cae noGUI=' + wrscript_name, shell = True)
+    subprocess.run('abaqus cae noGUI=' + sim_script, shell = True)
     print(f'-----------------------------------------------------------------> Abaqus Job {n} finished!')
-    subprocess.run('abaqus python ReadODBtoJson.py', shell = True)
+
+    subprocess.run('abaqus python odb_to_json.py', shell = True)
 
     with open('output_data.json', 'r') as f:
         outdata = json.load(f)
@@ -70,7 +77,7 @@ for i in inpdata.index[10:15]:
     n += 1
     print('-----------------------------------------------------------------> Loop time = ', time.time() - start)
 
-subprocess.run(f'move {params['JobName']}* {results_dir}', shell = True, stdout=subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-subprocess.run(f'move abaqus* {results_dir}', shell = True, stdout=subprocess.DEVNULL, stderr = subprocess.DEVNULL)
+subprocess.run(f'move {params['JobName']}* {results_dir}', shell = True)
+subprocess.run(f'move abaqus* {results_dir}', shell = True)
 
 print('-----------------------------------------------------------------> Script finished!')
