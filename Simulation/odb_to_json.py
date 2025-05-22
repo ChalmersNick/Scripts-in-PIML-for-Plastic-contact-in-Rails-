@@ -1,24 +1,22 @@
 from odbAccess import openOdb
 import json
 
-# Fetch and open the ODB and the step
 generated_path = "MainJob.odb"
 odb = openOdb(path = generated_path)
-
 step_names = list(odb.steps.keys())
-frame = odb.steps[step_names[-1]].frames[-1]
+frame = odb.steps[step_names[-1]].frames[-1] # Getting the last frame of the last step
 
-# CPRESS field
+# Reading max contact pressure
 cpress_field = frame.fieldOutputs['CPRESS']
 cpress_list = [value.data for value in cpress_field.values]
 max_cpress = max(cpress_list)
 
-# Stress field
+# Reading max von Mises stress
 stress = frame.fieldOutputs['S']
 stress_list = [value.mises for value in stress.values]
 max_vonmises = max(stress_list)
 
-# Displacement field
+# Reading min displacement (max of absolute value)
 u_field = frame.fieldOutputs['U']
 u_list = [value.data[1] for value in u_field.values]    
 min_u = min(u_list)
@@ -30,5 +28,5 @@ params = {
     "Min displacement": str(min_u) 
 }
 
-with open(r"output_data.json", "w") as f:
+with open("output_data.json", "w") as f:
     json.dump(params, f)
