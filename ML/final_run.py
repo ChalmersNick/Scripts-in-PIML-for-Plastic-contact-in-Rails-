@@ -55,13 +55,13 @@ for file in os.listdir(os.curdir):
                 number = f'0{n}'*(n < 10) + f'{n}'*(n >= 10)
                 if n>10:
                     number = jobs[4:]
-                axleload_list.append(f[str(jobs)+f'/input data {number}/AxleLoad{number}'][0])
-                railradius_list.append(f[str(jobs)+f'/input data {number}/RailRadius{number}'][0])
-                wheelradiusX_list.append(f[str(jobs)+f'/input data {number}/WheelRadiusX{number}'][0])
-                wheelradiusY_list.append(f[str(jobs)+f'/input data {number}/WheelRadiusY{number}'][0])
-                cpress_list.append(f[str(jobs)+f'/output data {number}/Max CPRESS{number}'][0])
-                disp_list.append(f[str(jobs)+f'/output data {number}/Min displacement{number}'][0])
-                vonMises_list.append(f[str(jobs)+f'/output data {number}/Max von Mises{number}'][0])
+                axleload_list.append(f[str(jobs) + f'/input data {number}/AxleLoad{number}'][0])
+                railradius_list.append(f[str(jobs) + f'/input data {number}/RailRadius{number}'][0])
+                wheelradiusX_list.append(f[str(jobs) + f'/input data {number}/WheelRadiusX{number}'][0])
+                wheelradiusY_list.append(f[str(jobs) + f'/input data {number}/WheelRadiusY{number}'][0])
+                cpress_list.append(f[str(jobs) + f'/output data {number}/Max CPRESS{number}'][0])
+                disp_list.append(f[str(jobs) + f'/output data {number}/Min displacement{number}'][0])
+                vonMises_list.append(f[str(jobs) + f'/output data {number}/Max von Mises{number}'][0])
                 n += 1
 axleload = np.array(axleload_list)
 railradius = np.array(railradius_list)
@@ -96,7 +96,7 @@ chosen_lam, chosen_nnode, chosen_layers, chosen_reg,chosen_epoch = read() #From 
 print(chosen_lam, chosen_nnode, chosen_layers, chosen_reg,chosen_epoch)
 
 #Run the training with the ''best'' hyperparameters to the epoch of the minimum validation loss
-model, trLoss, valLoss, epoch_of_min =NN3(x,y,chosen_lam, chosen_layers, 0.8, 0, chosen_reg, chosen_nnode,max_no_epoch=chosen_epoch,forcemult=True, blind = False,overtrain_softcond=False,conv_crit_on=False,overtrain_crit_on=False)
+model, trLoss, valLoss, epoch_of_min = NN3(x,y,chosen_lam, chosen_layers, 0.8, 0, chosen_reg, chosen_nnode,max_no_epoch=chosen_epoch,forcemult=True, blind = False,overtrain_softcond=False,conv_crit_on=False,overtrain_crit_on=False)
 
 #Plotting the relationship between the force and the outputs for 10 different geometries, for the final model
 for i in np.arange(0,len(wheelradiusX), 400):

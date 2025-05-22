@@ -34,12 +34,9 @@ def NN3(x, y, lam, layers, split, seednum, reg, num_of_nodes,max_no_epoch = 1000
     '''
 
     #Only one type of regularization
-    if reg == 'Lasso':
-        lambda_l1 = lam
-        lambda_l2 = 0
-    if reg == 'Ridge':
-        lambda_l1 = 0
-        lambda_l2 = lam
+    lambda_l1 = (reg == 'Lasso')*lam
+    lambda_l2 = (reg == 'Ridge')*lam
+    
     np.random.seed(seednum)   # for getting out the same random variables every time (reproducability)
 
     ndata = len(x[:,0])# number of data points

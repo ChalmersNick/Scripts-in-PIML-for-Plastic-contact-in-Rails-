@@ -80,12 +80,12 @@ class HertzClass():
               Returns:
               pmax: Maximum contact pressure in Pa
               '''
-              A, B = HertzClass.AB(self)
+              A, _ = HertzClass.AB(self)
               kappa, Ekap, Fkap = HertzClass.kap(self)
               e = np.sqrt(1-1/kappa**2)
               Estar = HertzClass.fEstar(self)
               e = np.sqrt(1-1/kappa**2)
               a = (3*self.Fn*(Fkap-Ekap)/2/np.pi/e**2/Estar/A)**(1/3)
               b = a*np.sqrt(1-e**2)
-              pmax = 3*self.Fn/2/np.pi/a/b#
+              pmax = 3*self.Fn/2/np.pi/a/b
               return pmax

@@ -2,11 +2,15 @@ import numpy as np
 import os
 import pandas as pd
 import h5py
+import subprocess
 
 from neural_network import NN3 #imports the neural network function
 
-
-#This is a script for grid searching of neural network
+noregfile = os.path.exists('hyperparameters_noreg.txt')
+lassofile = os.path.exists('hyperparametersLasso.txt')
+ridgefile = os.path.exists('hyperparametersRidge.txt')
+if not noregfile or not lassofile or not ridgefile:
+    subprocess.run('python hyperparameter_gen.py', shell = True)
 
 #Load data from h5 files
 axleload_list = []
