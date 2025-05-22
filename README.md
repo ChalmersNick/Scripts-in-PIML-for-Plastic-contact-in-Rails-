@@ -11,7 +11,7 @@ Note that the running the main script with all the combinations of input data co
 
 ## Info about the ML code
 
-To run the scripts in the ML folder, you need to have the h5 data files from the simulations in that folder. If you want, you can use the files "data1.h5" and "data2.h5" from the "Results/Simulation results" folder or you can run the simulations by yourself and use the generated files. 
+To run the scripts in the ML folder, you need to have the h5 data files from the simulations in that folder. If you want, you can use the files "data1.h5" and "data2.h5" from the "Results/Simulation results" folder or you can run the simulations by yourself and use the generated files.
 
 ## Authors
 The authors of the code are
